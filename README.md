@@ -1,4 +1,4 @@
 # Public
 My first public repository.
 
-It will contain various stuff.
+For opinion game code please go to: https://github.com/HNoorazar
