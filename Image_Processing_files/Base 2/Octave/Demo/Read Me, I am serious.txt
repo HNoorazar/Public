@@ -1,0 +1,63 @@
+
+base =4;
+nbins = 8;
+imageMatrix = sread('surpriseScaled.jpg',0,[1 1 1]);
+tiles = MultiPartitioning(imageMatrix(:,:,1), base);
+
+allHists1 = wholeHistInfo(imageMatrix(:,:,1), base, nbins);
+allHists2 = wholeHistInfo(imageMatrix(:,:,2), base, nbins);
+allHists3 = wholeHistInfo(imageMatrix(:,:,3), base, nbins);
+
+pixelCoord1 = [53 75]; 
+pixelCoord2 = [190 100];
+
+pixelID1 = findIDs(tiles, pixelCoord1);
+pixelID2 = findIDs(tiles, pixelCoord2);
+
+signature1_1 = findSignatures(allHists1, tiles, pixelID1);
+signature1_2 = findSignatures(allHists2, tiles, pixelID1);
+signature1_3 = findSignatures(allHists3, tiles, pixelID1);
+
+signature2_1 = findSignatures(allHists1, tiles, pixelID2);
+signature2_2 = findSignatures(allHists2, tiles, pixelID2);
+signature2_3 = findSignatures(allHists3, tiles, pixelID2);
+
+
+signature1 = [signature1_1(:); signature1_2(:); signature1_3(:)];
+signature2 = [signature2_1(:); signature2_2(:); signature2_3(:)];
+
+cdist = CorrelationDist(signature1,signature2);
+
+imshow(imageMatrix)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In the following documentation, blocks represent the smaller pieces from the image matrix
+
+0. We refer to a blocked partition at some scale as a "layer" of the multiscale representation
+   of the image.
+
+1. Base and layer number together will provide the number of partitions in each dimension 
+   of the original image matrix.  For example, if base = 4, and layer number = 2, then 
+   the second layer of the image multiscale block system will be divided into (4^2)*(4^2) 
+   blocks. 
+
+
+2. nbins is the number of histogram bins.
+
+
+3. imageMatrix reads the image and turns it into a matrix. The second argument can be 
+   either 0 or 1. If it is 0, it loads the original image; When it is 1, it combines 
+   the RGB's together with the weight given by the last argument.
+
+4. MultiPartitioning returns an structure containing borders and centers of all blocks at 
+   different layers.
+    
+5. wholeHistInfo returns signatures of all blocks for all layers.
+
+6. pixelCoord are the picked coordinates by the users.
+
+7. findIDs returns coordinate of each block at different layers that a given pixel belongs to.
+
+8. Signatures record the frequencies (for now) of each bins of the histograms for each block at various layers. 
+
+9. Distance functions measure the closeness between two signatures from different spots given by the pixelCood.

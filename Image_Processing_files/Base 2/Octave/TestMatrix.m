@@ -1,0 +1,1 @@
+A = (1:1:100);A = A';A = repmat(A,1,100);B = diag(1:1:100);TestMatrix = A*B;
