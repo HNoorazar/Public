@@ -1,0 +1,108 @@
+
+\documentclass[12pt, letterpaper]{article}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+
+%\usepackage[utf8]{inputenc}
+% \usepackage{tgbonum}
+
+
+\def\code#1{\texttt{#1}}
+
+\begin{document}
+
+\raggedright
+
+\title{Code Documentation\footnote{Name of the programmer of functions is written in the code for debugging purposes. If you see any flaw, let the corresponding persion know!!!}}
+\author{}
+\date{}
+
+\maketitle
+
+\section{Reading Data}
+
+\begin{enumerate}
+\item \code{load\_images(folderpath) } takes the path of a directory, as input, which contains all the folders, where each folder contains all the files corresponding to the images taken at a given time with different depths. 
+It returns a list that contains all the data we have. [data includes CT scan images, name of patient, age, name of hospital, etc.]
+
+\item \code{matrix\_of\_all\_times(all\_profiles, depth, no\_time\_steps, image\_dimension)} 
+goes through all data and returns a 3D-matrix of images of the same depth and different times.
+The size of the matrix is 
+{\small{(no\_time\_steps, image\_dimension, image\_dimension)}}
+
+\code{input}: 
+\begin{itemize}
+\item All the patient profiles which is the output of \code{load\_images(.)}
+\item \code{depth}: The target layer (currently we have 10 layers.)
+\item \code{no\_time\_steps}: Total number of time steps the images are taken. (currently 59).
+\item \code{image\_dimension} is the dimension of images we have. (currently 512 x 512).
+maybe we can skip this, inside the function we can look at one image, extract its size, and use it.
+\end{itemize}
+
+\code{output}: \code{image\_matrix}. 3D matrix of images of a certain layer taken at different times.
+\end{enumerate}
+
+%%%%%%%%% Extracting Submatrices
+\section{Core}
+\subsection{Extracting Submatrices}
+
+\begin{enumerate}
+\item {\small {\code{extract\_submatrix\_center(image\_matrix, center\_coor, margin\_size)} }}
+
+This function takes a 3D matrix of size {\small{(times, image\_size, image\_size)}} and returns sub-matrix of size {\small{(times, sub\_image\_size, sub\_image\_size)}}.
+
+\code{input}:
+
+\begin{itemize}
+\item \code{image\_matrix} is the matrix of images of the same depth and all times.
+\item \code{center\_coor} is index or coordinate of the center pixel of the target sub-matrix. So, if the center entry of the sub-matrix we want is $A_{ij}$, then its coordinate is [i, j].
+\item \code{margin\_size} is the size of the margin at each side of the center pixel. So, for example, if \code{margin\_size} = 1, then we will extract submatrix of size 3x3.
+\end{itemize}
+\code{output}: 3D sub-matrix of size \code{(all\_time, m, m)} where 
+
+m = 1+2 x margin\_size
+
+\item \code{extract\_submatrix(image\_matrices, upper\_left, sub\_size)}:
+\code{input}: 
+\begin{itemize}
+\item \code{image\_matrices} is a 3D matrix of images taken at different times of the same depth.
+\item \code{upper\_left} is the coordinate of the upper left pixel of the sub-image  we want to look at. The user has to think about the indexing like Python.
+\item \code{sub\_size} is the size of the sub-matrix we want to look at. It is assumed the sub-matrix is square.
+\end{itemize}
+
+\code{output}: a matrix of size (time\_steps, sub\_size, sub\_size).
+\end{enumerate}
+
+%%%%%%%%% Aggregation
+\subsection{Aggregation}
+
+\begin{enumerate}
+\item \code{aggregate\_2D(matrix, sub\_matrix\_dim)} is function that produces a matrix by non-local means
+
+\code{input}:
+\begin{itemize}
+\item \code{matrix} is a square matrix of an image to be reduced.
+\item \code{sub\_matrix\_dim} is number of rows (= number of columns) of the blocks in the matrix. For example if matrix is of size 36 x 36, and we want to look at tiles of size 2 x 2, there will be 9 blocks of size 2 x 2
+\end{itemize}
+
+\code{output}: a matrix of size \code{m x m}, where  \code{m = sqrt(no\_blocks)}.
+\item \code{aggregate\_3D(matrix, sub\_matrix\_dim)} is a function that takes in the 3D matrix of images of the same depth ($\text{depth} \in \{1, 2, \ldots, 10\}$)  taken at different times ($\text{time} \in \{1, 2, \ldots 59\}$)
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
