@@ -1,0 +1,60 @@
+
+------------------------------------------------------------------------
+       Segmentation violation detected at Tue Oct  7 14:39:30 2014
+------------------------------------------------------------------------
+
+Configuration:
+  Crash Decoding     : Disabled
+  Current Visual     : 0x22 (class 4, depth 24)
+  Default Encoding   : UTF-8
+  GNU C Library      : 2.12 stable
+  MATLAB Architecture: glnxa64
+  MATLAB Root        : /usr/local/matlab2014
+  MATLAB Version     : 8.3.0.532 (R2014a)
+  Operating System   : Linux 2.6.32-431.29.2.el6.x86_64 #1 SMP Tue Sep 9 21:36:05 UTC 2014 x86_64
+  Processor ID       : x86 Family 31 Model 6 Stepping 2, AuthenticAMD
+  Virtual Machine    : Java 1.7.0_11-b21 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+  Window System      : The X.Org Foundation (11502000), display localhost:10.0
+
+Fault Count: 1
+
+
+Abnormal termination:
+Segmentation violation
+
+Register State (from fault):
+  RAX = 00007fa9fab22ecf  RBX = 00007fa9fadac680
+  RCX = 001074e95120a070  RDX = 000ff53f5645da00
+  RSP = 00007fa9f0125540  RBP = 0000000000000001
+  RSI = 0000000000000000  RDI = 0000000000000000
+
+   R8 = 00000000ffffffff   R9 = 00000000000015a1
+  R10 = 00007fa9f01252a0  R11 = 00007faa1d030310
+  R12 = 00007fa9bc76f020  R13 = 00007fa9bc76f020
+  R14 = 0000000000000000  R15 = 00007fa9fb3af160
+
+  RIP = 000000313ee35a85  EFL = 0000000000010216
+
+   CS = 0033   FS = 0000   GS = 0000
+
+Stack Trace (from fault):
+[  0] 0x000000313ee35a85                                   /lib64/libc.so.6+00219781 exit+00000053
+[  1] 0x0000003141a44988                             /usr/lib64/libX11.so.6+00280968 _XIOError+00000088
+[  2] 0x0000003141a43369                             /usr/lib64/libX11.so.6+00275305 _XReply+00001081
+[  3] 0x0000003141a3ec5d                             /usr/lib64/libX11.so.6+00257117 XSync+00000061
+[  4] 0x0000003141a1f6b0                             /usr/lib64/libX11.so.6+00128688 XCloseDisplay+00000128
+[  5] 0x00007faa153b7033 /usr/local/matlab2014/bin/glnxa64/libmwnativedisplay.so+00020531
+[  6] 0x000000313ee35b32                                   /lib64/libc.so.6+00219954 exit+00000226
+[  7] 0x0000003141a44988                             /usr/lib64/libX11.so.6+00280968 _XIOError+00000088
+[  8] 0x0000003141a4381d                             /usr/lib64/libX11.so.6+00276509 _XEventsQueued+00000125
+[  9] 0x0000003141a3437f                             /usr/lib64/libX11.so.6+00213887 XEventsQueued+00000111
+[ 10] 0x00007fa9f12be4d6                                   <unknown-module>+00000000
+[ 11] 0x00007fa9f13d4fb0                                   <unknown-module>+00000000
+
+
+If this problem is reproducible, please submit a Service Request via:
+    http://www.mathworks.com/support/contact_us/
+
+A technical support engineer might contact you with further information.
+
+Thank you for your help.
