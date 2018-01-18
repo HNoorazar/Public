@@ -284,6 +284,3 @@ ENV/
 # Simulink Code Generation
 slprj/
 
-# MATLAB files
-.mat
-*.mat
