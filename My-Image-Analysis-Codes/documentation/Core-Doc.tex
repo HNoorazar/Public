@@ -1,0 +1,91 @@
+%%%%%%%%% Extracting Submatrices
+\section{Core}
+In this document the terms layer, depth and slice location are used interchangeably.
+\subsection{Get Image Matrices Out of Profile Data}
+\begin{enumerate}
+\item \func{extract\_sliceLocation\_names(all\_profile, no\_slices=10)} 
+
+\code{input}: 
+\begin{itemize}
+\item \vari{all\_profile} List of all profiles which is output of \func{load\_dcm\_profiled(.)}
+\item \vari{no\_slices} Number of different spacial images of a given liver.
+\end{itemize}
+
+\code{output}: Ordered list of  ID's of slices.
+
+Each profile read off the disk has different 
+information in it like patient name, date of images taken, etc.
+One of the items stored in a profile is ID of 
+an slice, e.g. -140, -165, etc. The variable 
+corresponding to slice ID is called "SliceLocation" 
+and is reachable as follows: "profile.SliceLocation" for a given "profile".
+
+Number of slices in our data is 10. Hence, the function 
+uses no\_slices=10 as a default if it is not provided by the user.
+\vspace{.2in}
+
+\item {\small \func{matrix\_of\_all\_times(all\_profiles, depth, no\_time\_steps, image\_dimension)}}
+
+It goes through all data and returns a 3D-matrix of images of the same depth and different times.
+The size of the matrix is 
+{\small{(no\_time\_steps, image\_dimension, image\_dimension)}}
+
+\textbf{\code{input}}:
+\begin{itemize}
+\item \vari{all\_profiles} which is the output of {\color{red}{\code{load\_images(.)}}}
+\item \vari{depth}: The target layer (currently we have 10 layers.)
+\item \vari{no\_time\_steps}: Total number of time steps the images are taken. (currently 59).
+\item \vari{image\_dimension} is the dimension of images we have. (currently 512 x 512).
+maybe we can skip this, inside the function we can look at one image, extract its size, and use it.
+\end{itemize}
+
+\textbf{\code{output}}: \vari{image\_matrix}. 3D matrix of images of a certain layer taken at different times.
+\end{enumerate}
+
+\subsection{Extracting Submatrices}
+
+\begin{enumerate}
+\item {\small {\func{extract\_submatrix\_center(image\_matrix, center\_coor, margin\_size)} }}
+
+This function takes a 3D matrix of size {\small{(times, image\_size, image\_size)}} and returns sub-matrix of size {\small{(times, sub\_image\_size, sub\_image\_size)}}.
+
+\textbf{\code{input}}:
+
+\begin{itemize}
+\item \vari{image\_matrix} is the matrix of images of the same depth and all times.
+\item \vari{center\_coor} is index or coordinate of the center pixel of the target sub-matrix. So, if the center entry of the sub-matrix we want is $A_{ij}$, then its coordinate is [i, j].
+\item \vari{margin\_size} is the size of the margin at each side of the center pixel. So, for example, if \code{margin\_size} = 1, then we will extract submatrix of size 3x3.
+\end{itemize}
+\textbf{\code{output}}: 3D sub-matrix of size \code{(all\_time, m, m)} where $m = 1+ 2\times margin\_size$
+
+\vspace{.5in}
+\item \func{extract\_submatrix(image\_matrices, upper\_left, sub\_size)}:
+
+\textbf{\code{input}}:
+\begin{itemize}
+\item \vari{image\_matrices} is a 3D matrix of images taken at different times of the same depth.
+\item \vari{upper\_left} is the coordinate of the upper left pixel of the sub-image  we want to look at. The user has to think about the indexing like Python.
+\item \vari{sub\_size} is the size of the sub-matrix we want to look at. It is assumed the sub-matrix is square.
+\end{itemize}
+
+\textbf{\code{output}}: a matrix of size (time\_steps, sub\_size, sub\_size).
+\end{enumerate}
+
+%%%%%%%%% Aggregation
+\subsection{Aggregation}
+
+\begin{enumerate}
+\item \func{aggregate\_2D(matrix, sub\_matrix\_dim)} is a function that produces a matrix by non-local means
+
+\textbf{\code{input}}:
+\begin{itemize}
+\item \vari{matrix} is a square matrix of an image to be reduced.
+\item \vari{sub\_matrix\_dim} is number of rows (= number of columns) of the blocks in the matrix. For example if matrix is of size 36 x 36, and we want to look at tiles of 
+size 2 x 2, there will be 9 blocks of size 2 x 2
+\end{itemize}
+
+\textbf{\code{output}}: a matrix of size \code{m x m}, where  \code{m = sqrt(no\_blocks)}.
+
+\item \func{aggregate\_3D(matrix, sub\_matrix\_dim)} is a function that takes in the 3D matrix of images of the same depth ($\text{depth} \in \{1, 2, \ldots, 10\}$)  taken at different times ($\text{time} \in \{1, 2, \ldots 59\}$)
+\end{enumerate}
+
