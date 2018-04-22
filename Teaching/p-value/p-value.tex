@@ -1,0 +1,848 @@
+% Default to the notebook output style
+% Inherit from the specified cell style.
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{t-test, p-value and hypothesis testing}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+   
+\begin{document}
+\maketitle
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{random}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{from} \PY{n+nn}{matplotlib} \PY{k}{import} \PY{n}{rcParams}
+        \PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sb}
+        
+        \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+        \PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.figsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{4}
+        \PY{n}{sb}\PY{o}{.}\PY{n}{set\PYZus{}style}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{whitegrid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \textbf{\emph{Hypothesis Testing}}: Let's talk about - t-tests, -
+p-values. - How are they related? - What is it telling you? - How does
+it relate to precision-recall? - What are the underlying assumptions?
+
+\section{Build up the foundation}\label{buil-up-the-foundation}
+
+\subsection{Mean (expected value)}\label{mean-expected-value}
+
+Suppose we have a random variable $X$. Let $x_1, x_2 , \cdots ,x_n$,
+be all the possible outcomes of $X$.
+
+Expected value of $X$, or its average, is defined by
+$E[X] = \mu = \sum p_i x_i$ where $p_i$ is probability of observing
+$x_i$. That is the center of the distribution. The random variable $X$ has another characteristic called variance,
+which measures how far $x_i$'s are spread out around the mean $\mu$.\\
+
+In practice, we will not know what the distribution of $X$ is. Hence,
+we do not know what $\mu$ and variance of $X$ are. In practice we
+just have a sample set of $X$, we just have observed occurence of some
+of the possible outputs of $X$. What can we do?\\
+
+We take the observed values and use them to \textbf{estimate} $\mu$
+and $\sigma^2$. If we have a set of randomly seen observqations of a
+random variable $X$, $A_1 = \{x_1, \: x_2, \cdots, \: x_k\}$, we use its
+arithmetic average to estimate $\mu$.
+
+    \paragraph{Facts about expected
+values}\label{facts-about-expected-values}
+
+Now consider a continuous distribution $X$ and suppose we have a bunch
+of sample sets of observed values of $X$,
+
+\[A_1 =\{x_{11}, \:  x_{21}, \cdots, \: x_{k1}\}\]
+
+\[A_2 =\{x_{12}, \: x_{22}, \cdots, \: x_{k2}\}\]
+
+\[\vdots\]
+
+\[A_m =\{x_{1m}, \: x_{2m}, \cdots, \: x_{km}\}\]
+
+And for each $A_i$ we compute arithmetic averages of elements in it,
+i.e.
+
+\[\bar{X}_j = \sum_{i=1}^{k}x_{ij} \tag{1}\]
+
+These averages are function of random variables $x_i$, therefore,
+\textbf{the average of random variable is itself a random variable}.
+Hence, it has an expected value and a variance. The center of this
+distribution is the same as that of the original distribution $X$.
+
+\textbf{\[E[\bar{X}] = \mu \tag{important fact 2}\]}
+
+\textbf{The equation above is said to be unbiased, since its
+distribution is centered at what it is trying to estimate.}
+
+EFY {[}Excersice For You{]}: show the above equation is true!
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{c+c1}{\PYZsh{}\PYZsh{} Randomly choose 1000 samples from N(0,1)}
+        \PY{c+c1}{\PYZsh{}\PYZsh{}}
+        \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)} \PY{c+c1}{\PYZsh{} set the seed to get the same result everytime!}
+        \PY{n}{sample} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+        
+        \PY{n}{mean10} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{200}
+        \PY{n}{mean30} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{200}
+        \PY{k}{for} \PY{n}{count} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{200}\PY{p}{)}\PY{p}{:}
+            \PY{n}{sample10} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+            \PY{n}{mean10}\PY{p}{[}\PY{n}{count}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{sample10}\PY{p}{)}
+            
+            \PY{n}{sample30} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{)}
+            \PY{n}{mean30}\PY{p}{[}\PY{n}{count}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{sample30}\PY{p}{)}
+        
+        
+        \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+        \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{sample}\PY{p}{,} \PY{n}{kde\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{color}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lw}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1000 samples}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+        \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{mean10}\PY{p}{,} \PY{n}{kde\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{color}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lw}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean of sets of s/ 10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+        \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{mean30}\PY{p}{,} \PY{n}{kde\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{color}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lw}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean of sets of s/ 30}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_4_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    In the plot above
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  the ** blue** diagram is histogram of 1000 randomly chosen samples
+  from normal distribution $N(0,1)$.
+\item
+  The ** green** diagram is histogram of arithmetic averages of 200
+  samples $A_i$ where each sample is of size 10.
+\item
+  The ** red** diagram is histogram of arithmetic averages of 200
+  samples $A_i$ where each sample is of size 30.
+\end{enumerate}
+
+We can see
+
+\begin{itemize}
+\item
+  The distribution of $A=\{x_1, \cdots, x_{1000}\}$ is a good estimate
+  of the normal distribution. The larger the sample set the better.
+\item
+  Arithmetic mean of $A$ is a good estimate of true mean $\mu=0$ of
+  the normal distribution.
+\item
+  We can also see that the arithmetic mean of $A_i$'s are also
+  centered at 0, for both sample sizes of 10 and 30.
+\item
+  On observant reader also notices that the larger the $|A_i|$'s are,
+  the more the sample means are concenterated arount 0,. i.e. as
+  cardinality of sample sets increases, the variance of mean
+  distribution decreases. This means the more data we have, the more
+  accuratrely we can estimate the parameter we want to estimate,
+  surprise!
+\end{itemize}
+
+    \subsection{Variance}\label{variance}
+
+    Measure of spread of a random variable is called variance, it tells us
+how the random variable is spreat out around the mean
+
+\[\sigma^2 = Var(X) = E[(X-\mu)^2] = E[X^2] - E[X]^2 \tag{3}\]
+
+$\sigma$ is called standard deviation.
+
+The smaller the variance, the more concentrated are the samples around
+the mean:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{mu} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)} \PY{c+c1}{\PYZsh{} set the seed to get the same result everytime!}
+        
+        \PY{n}{sample1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{n}{mu}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+        \PY{n}{sample2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{n}{mu}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+        \PY{n}{sample3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{n}{mu}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+        \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+        \PY{n}{sb}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{sample1}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{variance 1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{sb}\PY{o}{.}\PY{n}{kdeplot}\PY{p}{(}\PY{n}{sample2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{variance 2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{sb}\PY{o}{.}\PY{n}{distplot}\PY{p}{(}\PY{n}{sample3}\PY{p}{,} \PY{n}{hist}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{variance 3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{]}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Recall: - Populaiton mean is the center of the mass of population. -
+Sample mean is center of mass of the observed data.
+
+Similarly: The variance of a sample set $A=\{x_1, \cdots, x_n\}$ is
+used to estimate $\sigma^2$ and is given by:
+
+\[ S^2 = \frac{\sum_{i=1}^2(x_i - \bar{x})}{n-1} \tag{4} \]
+
+This sample variace $S^2$ is a function of random variables.
+Therefore, $S^2$ itself is a random variable and it has a (population)
+distribution. The distribution of $S^2$ has a mean and a variance.
+
+The expected value of "sample variance $S^2$" is, of course, the same
+as $Var(X)$. We use $S^2$ to estimate $\sigma^2$, of course
+expected value of $S^2$ has to be the same as $\sigma^2$.
+
+\[E[S^2] = \sigma^2 \tag{5}\]
+
+    \paragraph{Facts about sample means:}\label{facts-about-sample-means}
+
+\begin{itemize}
+\tightlist
+\item
+  $E[\bar{X}] = \mu$
+\item
+  $Var(\bar{X}) = \frac{\sigma^2}{n}$ ( This was observed in the first
+  plot above. Prove it!) This is useful, since we only get \textbf{one}
+  sample set like $A_1$, we do not get lots of them like the
+  experiment we did above: $A_1, \cdots, A_{200}$. This quantity is
+  very important and its root has its own name, Standard Error of the
+  mean denoted by $SE(\bar{X})$.
+\end{itemize}
+
+In summary:
+
+\begin{itemize}
+\item
+  $E[\bar{X}] = \mu$
+\item
+  $Var(\bar{X}) = \frac{\sigma^2}{n}$ where $n$ is the number of
+  observed variables. We do not know $\sigma^2$, therefore, we use its
+  estimate $Var(\bar{X}) = \frac{S^2}{n}$.
+\item
+  $SE(\bar{X}) = \frac{S}{\sqrt{n}}$. $S$ Talks about how variable
+  the population is, $SE$ talks about how variable averages of random
+  samples of size $n$ are.
+\end{itemize}
+
+    Prepare the scene to see how hypothesis test works
+
+    \section{Central Limit Theorem:}\label{central-limit-theorem}
+
+The following random variable will tend to have a standard normal
+distribution as $n$ increases.
+
+\[\dfrac{\bar{X}_n - \mu}{\dfrac{\sigma}{\sqrt{n}}} \tag{6}\]
+
+Or, equivalently,
+$\bar{X}_n \sim N\big(\mu, \dfrac{\sigma^2}{{n}}\big)$.
+
+\subsubsection{Confidence Interval}\label{confidence-interval}
+
+$\bar{X}$ is approximately normal with mean $\mu$ and sd
+$\dfrac{\sigma}{\sqrt{n}}$.
+
+The probability that $\bar{X}$ is larger than
+$\mu + \dfrac{2\sigma}{\sqrt{n}}$ or smaller than
+$\mu-\dfrac{2\sigma} {\sqrt{n}}$ is 5\%, or equivalently the
+\textbf{probability} that $\mu$ is between these limits is 95\%.
+
+$ \bar{X} \pm \dfrac{2\sigma}{\sqrt{n}}$ is called a $95\%$ interval
+for $\mu$. Here $\mu$ is \textbf{fixed} and the interval is being
+random. So, we are saying \textbf{the probability of this interval
+containig $\mu$ is 95\%}. Another words, if repeatedly get samples of
+size $n$ from this population, construct a confidence interval in each
+case, about 95\% of the intervals we obtain would contain $\mu$.
+
+If in Eq. (6) we replace $\sigma$ with $S$ we get a t-distribution.
+When we use this to compute a confidence interval, then we get T
+confidence interval, $ \bar{X} \pm t_{n-1}\sigma/\sqrt{n}$, where
+$n$ is the number of samples we have, and $n-1$ is called degrees of
+freedom of t-distribution. As n increases the t-distribution tends to
+get closer to normal distribution.
+
+    \subsubsection{Why we defined confidence interval
+above?}\label{why-we-defined-confidence-interval-above}
+
+Let's say I have a dream about mean of random variable distribution, and
+in the morning I claim $\mu=10$. A friend of mine looks at the data
+and says ''You are an idiot, the mean cannot be less than 15''.
+
+In order to not embarrass myself, I decide to do a test. I use central
+limit theorem, to see to what extend I can be sure that my guess, 10, is
+close to the true mean of distribution $\mu$.
+
+Here in this scenario my original assumption where I did not have any
+proof for, is called the so called \textbf{\emph{null hypothesis}}.
+
+\[H_0: \mu=10 \tag{7 - null hypothesis}\]
+
+My friend's statement is an alternative to my statement, it is called
+alternative hypothesis.
+
+\[H_a: \mu>15 \tag{8 - alternative hypothesis}\]
+
+There is nothing special about 10, or 15 or greater than! The
+alternative hypothesis could be $H_a:\mu \ne 10$.
+
+    Lets see what I can do. hummm, I do not have $\mu$, the only thing I
+have is a sample set of an unknown distribution. However, I can use the
+Central Limit Theorem (CLT). It says averages will have a distribution
+close to normal distribution. (t-distribution).
+
+There are 4 possible cases:
+
+\begin{itemize}
+\tightlist
+\item
+  $H_0$ is true and I accept it. (correctly accept null)
+\item
+  $H_0$ is true and I falsely reject it. (Type I error)
+\item
+  $H_a$ is true and I accept it. (correctly reject null)
+\item
+  $H_a$ is true and I falselye go with $H_0$. (Type II error)
+\end{itemize}
+
+I decide to give up on my claim, i.e. reject null hypothesis, if
+$\bar{X}$ is greater than some number C, for e.g. 12.
+
+So, my strategy would be to reject $H_0$ if the probability of ''Type
+I error'' is 5\% or less.
+
+\[P(\text{rejecting}\: H_0\: |\: H_0) = .05\]
+
+Assuming my claim $H_0$ is true, CLT says
+$\bar{X} \sim N\big(10, \dfrac{\sigma}{\sqrt{n}}\big)$. We do not know
+$\sigma$, we have to estimate it with $s$ given by Eq. (4) above.
+Lets say our sample set has 100 elements in it, and $s=10$. Therefore,
+$\bar{X} \sim N(10, 1)$.
+
+Now, I want to choose C so that
+$P(\text{rejecting}\: H_0\: ; \: H_0) = P(\bar{X}>C \: ; \: H_0) = 0.05$.
+We all have seen the image below:
+
+The 95th percentile of normal distribution is $1.645 \sigma$ away from
+the mean. So, there is at most 5\% chance that $\bar{X}$ is greater
+than $C=10+1.645 \times 1 = 10.1645$. Now, I can compute $\bar{X}$
+and decide what to do!
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\begin{itemize}
+\item
+  Usually we do not compute C. We just look at the t-score,
+  $z = \dfrac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}}$. In this
+  example if $z > 1.645$, we reject the null hypothesis.
+\item
+  If in Eq. (6) we replace $\sigma$ with $S$, then
+  $t = \dfrac{\bar{X} - \mu}{SE(\bar{X})}$ is called t-statistic ot
+  t-score. And (n-1) is called degrees of freedom of the t-distribution.
+\item
+  Usually, the alternative hypothesis is not one sided, it is two sided,
+  and therefore we work with confidence intervals. In example above
+  $H_a: \mu \ne 10$ is a two sided alternative hypothesis, and again,
+  we want to reject the null hypothesis with
+  $P(\text{rejecting}\: H_0\: ; \: H_0) = 0.05$. In this case, 2.5\%
+  of the probablitiles are on the left end, i.e. if the sample mean is
+  too small, and 2.5\% of the probabilitues are at the right end, when
+  the sample mean is too large. Hence, instead of looking at 95th
+  percentile we look at 97.5th percentile from above and 2.5th
+  percentile from below. And the interval
+\end{itemize}
+
+\[\big[\bar{X} - t \: \dot{} \:  SE(\bar{X}) \: , \:\bar{X}+ t \:  \dot{} \: SE(\bar{X})\big]\]
+
+would be the confidence interval we are looking for. In order to reject
+the null hypothesis with type I error rate of 5\%, the confidence
+iterval \emph{approximately} takes the form of
+
+\[\big[\bar{X} - 2 \:\dot{} \:SE(\bar{X}) \: , \: \bar{X}+ 2 \:\dot{} \:SE(\bar{X})\big]\]
+
+This is called the famous \textbf{t-test}. And it means with the sample
+set in hand, we are 95\% sure that the true population mean $\mu$ lies
+in this interval.
+
+    The sum of the two probabilities lying outside of the confidence
+interval, the shaded area below, is called \textbf{\emph{p-value}}. We
+compute the t-statistic and we look at the probability of observing a
+value, $\bar{X}$, that is greater than $|t|$, if it is small we
+reject the null hypothesis.
+
+    \textbf{Type I error}: Rejecting null hypothesis while it is true.
+
+\textbf{The type I error rate} is probability of rejecting null
+hypothesis given that it is true. It is the same as p-value.
+
+    In the context of testing someone for a disease:
+
+Null hypothesis is that "Nothing is there."
+
+Let D be the fact that the person has disease, $D^c$ the person does
+not have disease. Let + be the fact that the test result says the person
+has disease, and - be the fact that the test says the person does not
+have diasese.
+
+type I error rate = P(Rejecting null hypothesis while it is true) =
+P(rejecting $H_0$ \textbar{} $H_0$) = P(+ \textbar{} $D^c$).
+
+1 - type II error rate = Sensitivity = Recall = P(+\textbar{}D) =
+P(predicting sth is there \textbar{} something is there) =
+$\frac{P(+ \: \cap \: D)}{P(D)} = \frac{TP}{TP + FN}$
+
+    \paragraph{Assumptions made here:}\label{assumpstions-made-here}
+
+\begin{itemize}
+\tightlist
+\item
+  The data are normally distributed. (t-test is a studying distribution
+  of means of sample sets where sample sets are drawn from normally
+  distribited population.)
+\item
+  Variance of samples are equal.
+\item
+  When we use normal distribution precentiles rather than t-distribution
+  percentiles, we are assuming number of samples in the sample set is
+  more than 30.
+\end{itemize}
+
+\section{{An example of t-test and p-value. Regression.}}
+
+The following is written so that it can be good enough on its own.
+    \paragraph{Preface (Motivation)}\label{preface-motivation}
+
+Assume we have a set of observations, $x_1, x_2, \cdots, x_n$ drawn
+from an unknown population. We want to estimate mean of population for a
+random variable we are working with, $X$. what shall we do? One simple
+way is to calculate the mean of the observations,
+
+\[\bar{x}= \frac{1}{n}\sum_{i=1}^n x_i \tag{1}\]
+
+and claim its the mean of the population, $\mu$.
+
+A natural question to ask is "how accurate is our prediction?".
+
+Lets do an experiment:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)} \PY{c+c1}{\PYZsh{} set the seed to get the same result everytime!}
+        
+        \PY{n}{mu}\PY{p}{,} \PY{n}{sigma}\PY{o}{=} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{1.0} \PY{c+c1}{\PYZsh{} set the mean and variance of normal distribution}
+        \PY{n}{no\PYZus{}experiments} \PY{o}{=} \PY{l+m+mi}{4}
+        \PY{n}{n}\PY{o}{=}\PY{l+m+mi}{10}
+        
+        \PY{k}{for} \PY{n}{experiment\PYZus{}count} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{no\PYZus{}experiments}\PY{p}{)}\PY{p}{:}
+            \PY{n}{sample} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{n}{mu}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{n}{sigma}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{n}\PY{p}{)}
+            \PY{n+nb}{print} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The difference between the true mean and sample mean is }\PY{l+s+si}{\PYZob{}0:.3f\PYZcb{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{mu} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{sample}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+            
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The difference between the true mean and estimated mean is -0.021.
+The difference between the true mean and estimated mean is 0.028.
+The difference between the true mean and estimated mean is -0.501.
+The difference between the true mean and estimated mean is 0.396.
+
+    \end{Verbatim}
+
+    We can see in above example that our estimate of mean depends on the
+observations we have gotten in hand, of course!
+
+    In order to see how accurate our estimate of the mean is we can look at
+the standard error:
+
+\[ SE(\bar{x}\:\:) = \frac{s}{\sqrt{n}} \tag{2} \]
+
+where $s$ is the sample standard deviation:
+
+\[s = \left(\sum_{i=1}^n \frac{(x_i - \bar{x} \: \:)}{n-1}\right)^{\frac{1}{2}} \tag{3}\]
+Lets see how we can use this knowledge in order to check quality of coefficients in a regression problem.
+
+    \subsubsection{Hypothesis Testing}\label{hypothesis-testing}
+
+    Having the example above in mind, lets look at a linear regression model
+and explain what is a t-statistics, a p-value and how they relate.
+
+    Suppose we have a function defined as follows:
+\[ y = f(x) + \epsilon \tag{4} \]
+
+The noise $\epsilon$ is out of our control, we cannot do anything
+about it. However, we have some data, and we hope to use it to come up
+with a function $\hat f(x)$ to estimate the function $f(x)$, and
+use it as a proxy to estimate $y$.
+
+Suppose we have a data set. We train a model using a blackbox of Python
+or by some other means, such as a dream! Let's say we conclude that our
+regression model should be:
+
+\[ \hat y = \hat{f}(x) = \hat{a}_0 + \hat{a}_1\: x_1 + \hat{a}_2\: x_2 + \cdots + \hat{a}_n \: x_n \tag{5}\]
+
+A series of question rises immediately:
+
+\begin{itemize}
+\tightlist
+\item
+  How much of the information in the training set is described by this
+  model. How accurate are we doing on the training set.
+\item
+  Is this model generalizable? i.e. would it work well on unseen data?
+\item
+  and so on.
+\end{itemize}
+
+Well, some part of questions mentioned above can be broken into smaller
+pieces, for e.g.:
+
+\begin{itemize}
+\tightlist
+\item
+  Is the real underlying rule of the data, i.e. $f(x)$, truely linear?
+  (Is the relation between $y$ and $x_i$) linear?
+\end{itemize}
+
+Ok, I want to draw your attention to a more specific question here. Lets
+assume the model is a simple linear model. Assume
+
+\[ f(x) =  a_0 + a_1 x_1 + a_2 x_2 + \cdots + a_n x_n \tag{6} \]
+
+The \textbf{\emph{question}} is how accurate are the coefficients we
+found, i.e. how close are $\hat{a}_i$'s to $a_i$'s.
+
+    Similar to what we saw in the example in the preface, of course the
+coefficients we have computed here, depends on the set of observations
+we have, i.e. the training set.
+
+\begin{itemize}
+\item
+  So, if we have training set 1, then we would obtain a set of
+  coefficients associated with it
+  \[A^{(1)}=(a_0^{(1)}, a_1^{(1)}, \cdots, a_n^{(1)})\]
+\item
+  If we had a different training set 2, we would obtain a different set
+  of coefficients \[A^{(2)}=(a_0^{(2)}, a_1^{(2)}, \cdots, a_n^{(2)})\]
+\end{itemize}
+
+so on, so forth.
+
+A natural \emph{question} would be on average how far a given
+coefficient estimate $\hat{a}_i$ is from the true coefficient $a_i$.
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+Lets review a few concepts/definitions and then go back to see how can
+we decide on the quality of the predicted coefficients.
+
+\textbf{Definition 1} In statistics, usually, \emph{null hypothesis},
+\textbf{$H_0$}, states that there is no relationship between two
+measured variables, in our case X and Y.
+
+\[H_0: \text{There is no relationship between $X$ and $Y$ }\]
+
+\textbf{Definition 2} Alternatie hypothesis is the hypothesis that is
+contrary to the null hypothesis.
+
+\[H_a: \text{There is a relationship between $X$ and $Y$ }\]
+
+\textbf{Definition 3} $Z$-Score is the number of standard deviations
+that a given data point is away from the population mean,
+$z = \frac{x-\mu}{\sigma}$.
+
+    For simplicity, lets look at simple linear regression model,
+$y=a_0 + a_1x$. The null hypothesis in this case is $a_1=0$, i.e.
+there is no relation between $x$ and $y$, and alternative hypothesis
+is $a_1 \neq 0$. And assume using the training set we have estimated
+$\hat{a}_1$ to be some number.
+
+If the null hypothesis is true, which we do not know, then $\hat{a}_1$
+should not be far from $0$.
+
+But how far is far? How far should $\hat{a}_1$ be from zero for us to
+reject the null hypothesis? This is measured by t-statistics which is
+similar to Z-score. It tells us how far $\hat{a}_1$ is from 0.
+
+\[ t = \frac{\hat{a}_1 - 0}{SE(\hat{a}_1)} \tag{7}\]
+
+    When the null hypothesis is true, the t-statistics given by Eq. (7) will
+have a t-distribution. For large $n$, the t-distribution looks like
+normal distribution.
+
+A large t-statistics means our estimated coefficient is too far from 0
+which is assumption of null hypothesis, so, we can reject the null
+hypothesis.
+
+Having a t-statistics we can compute the probability of observing a
+coefficient value greater than or equal to $\left|t\right|$. This
+probability is called \emph{p-value}. The larger the magnitude of $t$,
+the smaller the \emph{p-value}.
+
+    
+
+    A small \emph{p-value} means that probability of observing such a
+(relatively) big value for $\hat{a}_{\:1}$ is low, if $a_{1}=0$.
+Therefore, if \emph{p-value} is small we reject the null-hypothesis and
+conclude that there \textbf{is} a relationship between $X$ and $Y$.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
